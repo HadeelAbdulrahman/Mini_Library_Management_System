@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>My Borrows</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  </head>
+  <body>
+    {% include "library/navbarstudent.html" %}
+    <div class="container mt-4">
+      <h3 class="mb-3">My Borrows</h3>
+
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Book</th><th>Borrowed at</th><th>Due at</th><th>Status</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for b in borrows %}
+          <tr>
+            <td>{{b.book.name}} ({{b.book.isbn}})</td>
+            <td>{{b.borrowed_at}}</td>
+            <td>{{b.due_at}}</td>
+            <td>
+              {% if b.returned %}
+                <span class="badge badge-success">Returned</span>
+              {% else %}
+                <span class="badge badge-warning">Active</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if not b.returned %}
+                <button class="btn btn-sm btn-primary" onclick="returnNow({{b.id}})">Return now</button>
+              {% else %}
+                -
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <a class="btn btn-primary" href="/borrow">Borrow again</a>
+      <a class="btn btn-outline-secondary" href="/books">Browse books</a>
+    </div>
+
+    <script>
+      async function returnNow(id) {
+        const res = await fetch(`/borrow/${id}/return`, {
+          method: 'POST',
+          headers: {'X-CSRFToken': getCookie('csrftoken')}
+        });
+        const data = await res.json();
+        if (data.ok) {
+          window.location.reload();
+        } else {
+          alert('Return failed');
+        }
+      }
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+    </script>
+  </body>
+</html>

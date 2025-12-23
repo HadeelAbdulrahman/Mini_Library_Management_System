@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Delete Book</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/book_list.css' %}">
+  </head>
+  <body>
+    {% include "library/navbaradmin.html" %}
+
+    <span class="page-title">Delete Book</span>
+
+    <div class="container">
+      <div style="max-width:720px; margin:auto; text-align:left">
+        <div class="mb-3">
+          <p class="lead">Are you sure you want to delete the following book?</p>
+          <h4>{{ book.name }}</h4>
+          <small class="text-muted">ISBN: {{ book.isbn }} • Author: {{ book.author }}</small>
+        </div>
+
+        <form method="post" class="d-flex justify-content-end">
+          {% csrf_token %}
+          <a href="/viewbook" class="btn ghost">Cancel</a>
+          <button type="submit" class="btn danger" style="margin-left:12px">Yes, delete</button>
+        </form>
+      </div>
+    </div>
+
+    {% include "library/footer.html" %}
+  </body>
+</html>

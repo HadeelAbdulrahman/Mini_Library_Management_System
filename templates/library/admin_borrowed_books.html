@@ -1,0 +1,38 @@
+{% extends 'navbaradmin.html' %}
+{% block content %}
+
+<div class="container mt-4">
+  <h3>Borrowed Books</h3>
+  <table class="table table-bordered mt-3">
+    <thead>
+      <tr>
+        <th>Student</th>
+        <th>Book</th>
+        <th>Borrowed At</th>
+        <th>Due At</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for b in borrows %}
+      <tr>
+        <td>{{ b.student.user.username }}</td>
+        <td>{{ b.book.name }} ({{ b.book.isbn }})</td>
+        <td>{{ b.borrowed_at }}</td>
+        <td>{{ b.due_at }}</td>
+        <td>
+          {% if b.returned %}
+            Returned
+          {% else %}
+            Borrowed
+          {% endif %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5">No borrows yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <title>LMS Django</title>
+    <style media="screen">
+    .jumbotron{
+      margin-bottom: 0px;
+    }
+    .jumbotron h1{
+      text-align: center;
+    }
+    </style>
+
+  </head>
+  <body>
+      {% include "library/navbar.html" %}
+<br><br>
+    <h3 class="page-title">Hello, Student</h3>
+    <div class="container mt-4">
+      <p class="lead">Welcome to the Online Library Management System. You can access features after login.</p>
+      <div class="text-center" style="margin-top:20px">
+        <a class="btn primary" href="studentsignup">Sign Up</a>
+        <a class="btn ghost" href="studentlogin" style="margin-left:12px">Login</a>
+      </div>
+    </div>
+
+
+      {% include "library/footer.html" %}
+  </body>
+</html>

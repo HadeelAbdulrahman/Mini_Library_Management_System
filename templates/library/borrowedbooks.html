@@ -1,0 +1,47 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Borrowed Books</title>
+  <link rel="stylesheet" href="{% static 'css/book_list.css' %}">
+</head>
+<body>
+  {% include "library/navbaradmin.html" %}
+
+  <span class="page-title">Currently Borrowed Books</span>
+
+  <div class="container">
+    {% if borrows %}
+    <table class="books-table">
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Book</th>
+          <th>Borrowed At</th>
+          <th>Due At</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for b in borrows %}
+        <tr>
+          <td>{{ b.student.user.get_full_name|default:b.student.user.username }}<small>{{ b.student.enrollment }}</small></td>
+          <td>{{ b.book.name }}<small>ISBN: {{ b.book.isbn }}</small></td>
+          <td>{{ b.borrowed_at }}</td>
+          <td>{{ b.due_at }}</td>
+          <td>{% if b.returned %}<span class="badge">Returned</span>{% else %}<span class="badge">Borrowed</span>{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p class="empty">No borrowed books at the moment.</p>
+    {% endif %}
+  </div>
+
+  {% include "library/footer.html" %}
+</body>
+</html>

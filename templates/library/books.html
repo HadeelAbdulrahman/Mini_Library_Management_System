@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Books</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/book_list.css' %}">
+
+  </head>
+  <body>
+    {% include "library/navbarstudent.html" %}
+    <div class="container mt-4">
+      <h3 class="mb-3">Available Books</h3>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th><th>ISBN</th><th>Author</th><th>Category</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for book in books %}
+          <tr>
+            <td>{{book.name}}</td>
+            <td>{{book.isbn}}</td>
+            <td>{{book.author}}</td>
+            <td>{{book.category}}</td>
+            <td>
+              {% if book.is_available %}
+                <span class="badge badge-success">Available</span>
+              {% else %}
+                <span class="badge badge-secondary">Borrowed</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <a class="btn btn-primary" href="/borrow">Borrow a book</a>
+      <a class="btn btn-outline-secondary" href="/myborrows">My borrows</a>
+    </div>
+  </body>
+</html>

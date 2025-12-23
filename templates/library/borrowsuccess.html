@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Borrow Started</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  </head>
+  <body>
+    {% include "library/navbarstudent.html" %}
+    <div class="container mt-4">
+      <h3 class="mb-3">Borrow Started ✅</h3>
+      <p><strong>Book:</strong> {{borrow.book.name}} ({{borrow.book.isbn}})</p>
+      <p><strong>Due at:</strong> {{borrow.due_at}}</p>
+      <p class="text-muted">This page will automatically return the book when the borrow period ends (client-side Promise/await timer). Even if you close the page, the server will also auto-return once it's due.</p>
+
+      <div id="status" class="alert alert-warning">Waiting for due time...</div>
+
+      <a class="btn btn-outline-secondary" href="/myborrows">Go to My borrows</a>
+    </div>
+
+    <script>
+      // Client-side auto-return demo:
+      // Wait for the exact duration (in milliseconds) then call the return endpoint.
+      const remainingMs = Number("{{ remaining_ms }}");
+      const borrowId = Number("{{ borrow.id }}");
+
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+
+      async function autoReturn() {
+        try {
+          if (remainingMs > 0) {
+            await sleep(remainingMs);
+          }
+          document.getElementById('status').className = 'alert alert-info';
+          document.getElementById('status').textContent = 'Time is up. Returning the book...';
+
+          const res = await fetch(`/borrow/${borrowId}/return`, {
+            method: 'POST',
+            headers: {
+              'X-CSRFToken': getCookie('csrftoken')
+            }
+          });
+
+          const data = await res.json();
+          if (data.ok) {
+            document.getElementById('status').className = 'alert alert-success';
+            document.getElementById('status').textContent = 'Returned automatically ✅';
+          } else {
+            throw new Error('Return failed');
+          }
+        } catch (e) {
+          document.getElementById('status').className = 'alert alert-danger';
+          document.getElementById('status').textContent = 'Auto-return failed. You can return manually from My borrows.';
+        }
+      }
+
+      // CSRF helper (Django docs pattern)
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+
+      autoReturn();
+    </script>
+  </body>
+</html>

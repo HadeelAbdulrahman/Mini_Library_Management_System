@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+<style media="screen">
+.btn-circle.btn-xl {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  border-radius: 35px;
+  font-size: 24px;
+  line-height: 1.33;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  padding: 6px 0px;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.42857;
+}
+
+.jumbotron{
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.jumbotron h1{
+  text-align: center;
+}
+
+
+</style>
+  </head>
+  <body>
+    {% include "library/navbarstudent.html" %}
+    <h3 class="page-title">Welcome, {{ user.first_name }}!</h3>
+    <div class="container mt-4">
+      <p class="lead">As a student, you can browse available books, borrow them, and view your borrow history with due dates and fines.</p>
+      <div class="text-center" style="margin-top:24px">
+        <a href="/books" class="btn primary">Browse Books</a>
+        <a href="/myborrows" class="btn ghost" style="margin-left:12px">My Borrows</a>
+      </div>
+    </div>
+
+
+    {% include "library/footer.html" %}
+  </body>
+</html>

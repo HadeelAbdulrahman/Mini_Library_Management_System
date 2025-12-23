@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>LMS Django</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+	<link rel="stylesheet" href="{% static 'css/book_list.css' %}">
+
+
+
+  </head>
+  <body>
+    {% include "library/navbar.html" %}
+    <br>
+    <br>
+<div class="page-title">Login As Student</div>
+<div class="container">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags|default:'info' }}" role="alert">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <div class="form-card">
+        <div class="book-form">
+          <form method="post" class="book-form">
+            {% csrf_token %}
+            <h2 style="text-align:center; margin-top:0;">Student Login</h2>
+
+            {% for field in form %}
+              <div class="form-group">
+                <label>{{ field.label_tag }}</label>
+                {{ field }}
+                {% if field.errors %}
+                  <div class="errorlist">{{ field.errors }}</div>
+                {% endif %}
+              </div>
+            {% endfor %}
+
+            <div class="form-actions">
+              <button type="submit" class="btn primary">Login</button>
+              <a href="/" class="btn ghost">Cancel</a>
+            </div>
+
+            <div style="margin-top:12px; text-align:center;">Do not have account? <a href="studentsignup">Signup here</a></div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+
+    {% include "library/footer.html" %}
+  </body>
+</html>
